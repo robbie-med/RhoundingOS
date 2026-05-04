@@ -1,0 +1,8 @@
+{
+  "name": "RoundingOS",
+  "description": "Patient rounding dashboard for clinicians to manage patients, checklists, interactive exams, and auto-parse medication lists.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": []
+}
