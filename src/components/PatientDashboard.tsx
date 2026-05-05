@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { usePatients } from "../context/PatientContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/Tabs";
 import { ChecklistTab } from "./tabs/ChecklistTab";
 import { MedicationsTab } from "./tabs/MedicationsTab";
 import { ExamTab } from "./tabs/ExamTab";
 import { NotesTab } from "./tabs/NotesTab";
+import { LabsTab } from "./tabs/LabsTab";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 export function PatientDashboard() {
   const { patients, activePatientId, updatePatient } = usePatients();
-  const [activeTab, setActiveTab] = React.useState("checklist");
+  const [activeTab, setActiveTab] = useState("checklist");
+  const [isHeaderExpanded, setIsHeaderExpanded] = useState(false);
 
   const activePatient = patients.find((p) => p.id === activePatientId);
 
@@ -30,38 +33,34 @@ export function PatientDashboard() {
 
   return (
     <div className="flex-1 flex flex-col h-full bg-stone-900 overflow-hidden relative">
-      <div className={`transition-all duration-500 ease-in-out overflow-hidden ${isExamMode ? "max-h-0 opacity-0" : "max-h-[500px] opacity-100"}`}>
-        <header className="px-4 lg:px-8 py-4 lg:py-6 border-b border-stone-800 bg-stone-900 shrink-0 shadow-lg shadow-black/20 z-10">
-          <div className="flex justify-between items-start mb-4">
+      <div className={`transition-all duration-300 ease-in-out shrink-0 bg-stone-900 shadow-lg border-b border-stone-800 z-10 ${isExamMode ? "h-0 opacity-0 overflow-hidden" : ""}`}>
+        <header className="px-4 lg:px-8 py-3">
+          <div 
+            className="flex justify-between items-center cursor-pointer group"
+            onClick={() => setIsHeaderExpanded(!isHeaderExpanded)}
+          >
             <div>
-              <h1 className="text-2xl lg:text-3xl font-bold tracking-tight text-white">{activePatient.name}</h1>
-              <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs lg:text-sm text-stone-400">
+              <h1 className="text-xl lg:text-2xl font-bold tracking-tight text-white group-hover:text-blue-400 transition-colors">{activePatient.name}</h1>
+              <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-stone-400">
                 <span className="flex items-center gap-1.5"><span className="font-semibold text-stone-500 uppercase text-[10px] tracking-wider">Room:</span> <span className="text-stone-200">{activePatient.room}</span></span>
                 <span className="flex items-center gap-1.5"><span className="font-semibold text-stone-500 uppercase text-[10px] tracking-wider">Age/Sex:</span> <span className="text-stone-200">{activePatient.age || "?"}{activePatient.gender ? activePatient.gender.charAt(0) : ""}</span></span>
                 <span className="flex items-center gap-1.5"><span className="font-semibold text-stone-500 uppercase text-[10px] tracking-wider">Diagnosis:</span> <span className="text-stone-200 underline decoration-stone-700 underline-offset-4">{activePatient.diagnosis || "Unspecified"}</span></span>
               </div>
             </div>
+            <button className="p-2 text-stone-500 hover:text-white transition-colors">
+              {isHeaderExpanded ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
+            </button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 lg:gap-4">
+          <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isHeaderExpanded ? "max-h-[200px] mt-4 opacity-100" : "max-h-0 opacity-0"}`}>
             <div className="space-y-1.5">
-              <label className="text-[10px] lg:text-xs font-bold text-stone-500 uppercase tracking-widest">Patient One-Liner & Course</label>
+              <label className="text-[10px] font-bold text-stone-500 uppercase tracking-widest">Patient One-Liner & Course</label>
               <textarea
-                className="w-full text-xs lg:text-sm resize-none border-stone-800 border rounded-xl p-2 lg:p-3 bg-stone-950 text-stone-200 focus:bg-stone-900 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all placeholder:text-stone-700"
+                className="w-full text-xs resize-none border-stone-800 border rounded-xl p-2 bg-stone-950 text-stone-200 focus:bg-stone-900 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all placeholder:text-stone-700"
                 rows={2}
                 placeholder="e.g. 72yo M w/ PMHx of CHF presenting with acute exacerbation..."
                 value={activePatient.oneLiner}
                 onChange={(e) => updatePatient(activePatient.id, { oneLiner: e.target.value })}
-              />
-            </div>
-            <div className="space-y-1.5">
-              <label className="text-[10px] lg:text-xs font-bold text-stone-500 uppercase tracking-widest">Morning Labs & Vitals</label>
-              <textarea
-                className="w-full text-[10px] lg:text-xs resize-none border-stone-800 border rounded-xl p-2 lg:p-3 bg-stone-950 text-stone-300 font-mono focus:bg-stone-900 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all placeholder:text-stone-700"
-                rows={2}
-                placeholder="Tmax 37.8, HR 80s | Na 135 K 4.0 Cr 1.1"
-                value={activePatient.vitalsLabs}
-                onChange={(e) => updatePatient(activePatient.id, { vitalsLabs: e.target.value })}
               />
             </div>
           </div>
@@ -75,6 +74,7 @@ export function PatientDashboard() {
               <TabsList className="mb-6 lg:mb-8 w-full justify-start overflow-x-auto no-scrollbar pb-1">
                 <TabsTrigger value="checklist" className="shrink-0">Checklist & Tasks</TabsTrigger>
                 <TabsTrigger value="medications" className="shrink-0">Medications</TabsTrigger>
+                <TabsTrigger value="labs" className="shrink-0">Labs & Vitals</TabsTrigger>
                 <TabsTrigger value="exam" className="shrink-0">Exam (Mannequin)</TabsTrigger>
                 <TabsTrigger value="notes" className="shrink-0">A&P / Note Builder</TabsTrigger>
               </TabsList>
@@ -86,6 +86,10 @@ export function PatientDashboard() {
             
             <TabsContent value="medications" className="outline-none">
               <MedicationsTab patient={activePatient} updatePatient={updatePatient} />
+            </TabsContent>
+
+            <TabsContent value="labs" className="outline-none">
+              <LabsTab patient={activePatient} />
             </TabsContent>
 
             <TabsContent value="exam" className="outline-none flex-1">

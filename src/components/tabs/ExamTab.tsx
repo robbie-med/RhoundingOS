@@ -44,14 +44,41 @@ function MannequinSVG({ onSelectPart }: { onSelectPart: (part: string) => void }
 }
 
 const EXAM_TEMPLATES: Record<string, string[]> = {
-  "Head & Neuro": ["AOx3", "AOx1 to self", "Flat affect", "PERRL", "EOMI", "Somnolent but arousable", "Delirious", "Expressive aphasia"],
-  "Chest & CV/Pulm": ["RRR", "Irregularly irregular", "Systolic murmur", "Diastolic murmur", "CTAB", "Crackles at bases", "Wheezing", "Diminished breath sounds"],
+  "Head & Neuro": ["AOx3", "AOx1 to self", "Flat affect", "PERRL", "EOMI", "Somnolent but arousable", "Delirious", "Expressive aphasia", "Right IJ CL (Single)", "Right IJ CL (Double)", "Right IJ CL (Triple)", "Right IJ CL (Quad)"],
+  "Chest & CV/Pulm": ["RRR", "Irregularly irregular", "Systolic murmur", "Diastolic murmur", "CTAB", "Crackles at bases", "Wheezing", "Diminished breath sounds", "Subclavian CL (Single)", "Subclavian CL (Double)", "Subclavian CL (Triple)"],
   "Abdomen & GI/GU": ["Soft/NT/ND", "Tender to palpation", "Distended", "NABS", "Hyperactive BS", "Firm", "Guarding", "Rebound"],
   "GU & Pelvis": ["Foley catheter", "Straight cath", "Suprapubic cath", "Hematuria", "Incontinent", "Pelvic binder"],
-  "Left Arm": ["22g PIV", "20g PIV", "18g PIV", "Midline", "PICC line", "Radial pulse 2+", "Arterial line"],
-  "Right Arm": ["22g PIV", "20g PIV", "18g PIV", "Midline", "PICC line", "Radial pulse 2+", "Dialysis access"],
+  "Left Arm": ["24g PIV", "22g PIV", "20g PIV", "18g PIV", "16g PIV", "14g PIV", "Midline", "PICC line", "Radial pulse 2+", "Arterial line"],
+  "Right Arm": ["24g PIV", "22g PIV", "20g PIV", "18g PIV", "16g PIV", "14g PIV", "Midline", "PICC line", "Radial pulse 2+", "Dialysis access"],
   "Left Leg": ["No edema", "1+ pitting edema", "2+ pitting edema", "3+ pitting edema", "Warm/Well perfused", "Dorsalis pedis 2+", "Compression stockings"],
   "Right Leg": ["No edema", "1+ pitting edema", "2+ pitting edema", "3+ pitting edema", "Warm/Well perfused", "Dorsalis pedis 2+", "Foot ulcer"],
+};
+
+const GAUGE_THEMES: Record<string, { active: string; inactive: string }> = {
+  "14g": { 
+    active: "bg-orange-600 border-orange-500 shadow-orange-900/40 ring-orange-400/50", 
+    inactive: "border-orange-500/30 text-orange-400/70 hover:bg-orange-500/10 hover:text-orange-300"
+  },
+  "16g": { 
+    active: "bg-stone-500 border-stone-400 shadow-stone-900/40 ring-stone-300/50", 
+    inactive: "border-stone-500/30 text-stone-400/70 hover:bg-stone-500/10 hover:text-stone-300"
+  },
+  "18g": { 
+    active: "bg-emerald-600 border-emerald-500 shadow-emerald-900/40 ring-emerald-400/50", 
+    inactive: "border-emerald-500/30 text-emerald-400/70 hover:bg-emerald-500/10 hover:text-emerald-300"
+  },
+  "20g": { 
+    active: "bg-pink-600 border-pink-500 shadow-pink-900/40 ring-pink-400/50", 
+    inactive: "border-pink-500/30 text-pink-400/70 hover:bg-pink-500/10 hover:text-pink-300"
+  },
+  "22g": { 
+    active: "bg-blue-600 border-blue-500 shadow-blue-900/40 ring-blue-400/50", 
+    inactive: "border-blue-500/30 text-blue-400/70 hover:bg-blue-500/10 hover:text-blue-300"
+  },
+  "24g": { 
+    active: "bg-yellow-600 border-yellow-500 shadow-yellow-900/40 ring-yellow-400/50", 
+    inactive: "border-yellow-500/30 text-yellow-400/70 hover:bg-yellow-500/10 hover:text-yellow-300"
+  }
 };
 
 export function ExamTab({ patient, updatePatient }: { patient: Patient; updatePatient: (id: string, data: Partial<Patient>) => void }) {
@@ -199,14 +226,18 @@ export function ExamTab({ patient, updatePatient }: { patient: Patient; updatePa
               <div className="flex flex-wrap gap-2 pb-2">
                 {EXAM_TEMPLATES[selectedPart]?.map(template => {
                   const active = isFindingActive(template);
+                  const gaugeMatch = template.toLowerCase().match(/(\d{2}g)/);
+                  const gauge = gaugeMatch ? gaugeMatch[1] : null;
+                  const theme = gauge ? GAUGE_THEMES[gauge] : null;
+
                   return (
                     <button
                       key={template}
                       onClick={() => toggleFinding(template)}
                       className={`text-[11px] font-bold uppercase tracking-wider px-5 py-3 rounded-2xl transition-all shadow-sm border ${
                         active 
-                          ? "bg-blue-600 text-white border-blue-500 shadow-lg shadow-blue-900/40 ring-1 ring-blue-400/50" 
-                          : "bg-stone-950 border-stone-800 text-stone-500 hover:bg-stone-800 hover:text-stone-300"
+                          ? (theme?.active || "bg-blue-600 text-white border-blue-500 shadow-lg shadow-blue-900/40 ring-1 ring-blue-400/50") 
+                          : (theme?.inactive || "bg-stone-950 border-stone-800 text-stone-500 hover:bg-stone-800 hover:text-stone-300")
                       }`}
                     >
                       {template}

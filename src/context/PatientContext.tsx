@@ -23,6 +23,10 @@ export function PatientProvider({ children }: { children: React.ReactNode }) {
         return parsed.map((p: any) => ({
           ...p,
           problems: p.problems || [],
+          vitalsNote: p.vitalsNote || "",
+          labsNote: p.labsNote || "",
+          overnightEvents: p.overnightEvents || "",
+          hospitalCourse: p.hospitalCourse || "",
           misc: p.misc || {
             o2: "",
             codeStatus: "",
@@ -74,6 +78,10 @@ TUBES/LINES: _`,
       examFindings: [],
       medications: [],
       problems: [],
+      vitalsNote: "",
+      labsNote: "",
+      overnightEvents: "",
+      hospitalCourse: "",
       misc: {
         o2: "",
         codeStatus: "",

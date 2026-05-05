@@ -49,335 +49,274 @@ const PROBLEM_TEMPLATES = [
   { 
     system: "Cardiovascular",
     title: "Acute Heart Failure Exacerbation", 
-    assessment: "Acute decompensated heart failure with volume overload, likely secondary to [non-compliance/ischemia/dietary indiscretion]. Clinical signs of pulmonary congestion and peripheral edema present. Goal is diuresis to dry weight and optimization of GDMT.",
+    assessment: "Acute decompensated heart failure with volume overload. Hemodynamics: [HDS SBP >90 / HDUS SBP <90]. Goal is diuresis to dry weight and optimization of GDMT. Monitoring for need for NIPPV/Inotropes.",
     ddx: ["Ischemic Cardiomyopathy", "Hypertensive Emergency", "Valvular Heart Disease (MR/AR)", "Flash Pulmonary Edema", "Pneumonia"],
     medications: [
-      { name: "Furosemide", dose: "40mg (or 2x home dose)", frequency: "BID" },
+      { name: "Furosemide", dose: "40-80mg (1-2.5x home dose)", frequency: "BID" },
       { name: "Lisinopril", dose: "10mg", frequency: "QD" },
-      { name: "Metoprolol Succinate", dose: "25mg", frequency: "QD" },
-      { name: "Spironolactone", dose: "25mg", frequency: "QD" }
-    ] 
+      { name: "Metoprolol Succinate", dose: "25mg", frequency: "QD" }
+    ],
+    orders: "Continuous telemetry; Daily weights; Strict I/Os; Goal UOP >100-150 mL/hr; Pro-BNP; Daily BMP/CBC; Cardiac echo if not done in 6 mos."
   },
   { 
     system: "Cardiovascular",
-    title: "Atrial Fibrillation with RVR", 
-    assessment: "New onset vs recurrence of AFib with rapid ventricular response. Hemodynamically [stable/unstable]. CHADS-VASc score calculated as [X]. Goal is rate control < 110 bpm and evaluation for anticoagulation.",
+    title: "STEMI (Emergency)", 
+    assessment: "ST-Elevation Myocardial Infarction identified by EKG. High risk for malignant arrhythmia and cardiogenic shock. Emergent reperfusion indicated.",
+    ddx: ["Acute Myocardial Infarction", "Aortic Dissection", "Pericarditis", "Takotsubo Cardiomyopathy"],
+    medications: [
+      { name: "Aspirin", dose: "325mg", frequency: "Once" },
+      { name: "Clopidogrel", dose: "600mg (load)", frequency: "Once" },
+      { name: "Atorvastatin", dose: "80mg", frequency: "QD" },
+      { name: "Heparin", dose: "Bolus + GTT", frequency: "QD" }
+    ],
+    orders: "STAT Cardiology consult for emergent PCI; Continuous telemetry; EKG and Troponins Q6H; Supplemental O2 (Target >90%); Nitro/Morphine PRN."
+  },
+  { 
+    system: "Cardiovascular",
+    title: "ACS / NSTEMI", 
+    assessment: "Non-ST Elevation Myocardial Infarction. TIMI Score: [X], GRACE Score: [Y]. Risk stratifying for early invasive vs conservative management.",
+    ddx: ["Unstable Angina", "NSTEMI", "Type 2 Myocardial Infarction", "Myocarditis"],
+    medications: [
+      { name: "Aspirin", dose: "81mg", frequency: "QD" },
+      { name: "Metoprolol Tartrate", dose: "25mg", frequency: "TID" },
+      { name: "Atorvastatin", dose: "80mg", frequency: "QD" }
+    ],
+    orders: "Consult Cardiology; Serum Troponins q3-6h; Continuous telemetry; Supplemental O2 (Target >90%); Nitro/Morphine PRN; Consider BB/ACE-i."
+  },
+  { 
+    system: "Cardiovascular",
+    title: "AFib with RVR (Acute)", 
+    assessment: "Atrial Fibrillation with Rapid Ventricular Response. Hemodynamically [stable/unstable]. CHADS2-VASc: [X], HASBLED: [Y]. Goal is rate control < 110 bpm.",
     ddx: ["Thyrotoxicosis", "Pulmonary Embolism", "Sympathetic Surge", "Electrolyte abnormality (K/Mg)", "Alcohol (Holiday Heart)"],
     medications: [
+      { name: "Diltiazem", dose: "15mg IV (then 5-10mg/hr GTT)", frequency: "PRN" },
       { name: "Metoprolol Tartrate", dose: "25mg", frequency: "TID" },
-      { name: "Diltiazem GTT", dose: "Titrate", frequency: "PRN" },
-      { name: "Apixaban", dose: "5mg", frequency: "BID" },
-      { name: "Magnesium Sulfate", dose: "2g", frequency: "PRN" }
-    ] 
-  },
-  { 
-    system: "Cardiovascular",
-    title: "Atrial Fibrillation (Chronic/STABLE)", 
-    assessment: "Chronic Atrial Fibrillation, stable on current hospital regimen. Rate controlled < 110 bpm. Patient is [high/low] risk for thromboembolism per CHADS-VASc. Continuing home rate control and anticoagulation.",
-    ddx: ["Decompensated Heart Failure", "Valvular Disease", "Hyperthyroidism", "Post-operative state"],
-    medications: [
-      { name: "Metoprolol Succinate", dose: "25mg", frequency: "QD" },
       { name: "Apixaban", dose: "5mg", frequency: "BID" }
-    ] 
+    ],
+    orders: "Tele; EKG; Echo; TSH; BMP; Mg/Phos; If HR >110, titrate Diltiazem GTT up to 15mg/hr."
   },
   { 
     system: "Cardiovascular",
-    title: "Hypertensive Urgency", 
-    assessment: "Asymptomatic severe hypertension (SBP > 180 or DBP > 120) without evidence of acute end-organ damage. Goal is gradual reduction of MAP by 25% over 24-48 hours.",
-    ddx: ["Pain-induced HTN", "Anxiety", "Medication Non-compliance/Recoil", "Obstructive Sleep Apnea exacerbation", "Renovascular HTN"],
+    title: "Chest Pain (Inpatient Evaluation)", 
+    assessment: "Acute chest pain, likely [Cardiac vs Non-cardiac]. HEART Score: [X]. Initial Troponin: [Y]. EKG: [Z]. Low pre-test probability for PE/Dissection.",
+    ddx: ["ACS (NSTEMI/UA)", "Acute PE", "Aortic Dissection", "Tension PTX", "Pancreatitis/Biliary", "GERD"],
     medications: [
-      { name: "Amlodipine", dose: "5mg", frequency: "QD" },
-      { name: "Hydralazine", dose: "25mg", frequency: "PRN" },
-      { name: "Labetalol", dose: "100mg", frequency: "BID" },
-      { name: "Clonidine", dose: "0.1mg", frequency: "PRN" }
-    ] 
-  },
-  { 
-    system: "Cardiovascular",
-    title: "Syncope / Orthostasis", 
-    assessment: "Loss of consciousness, likely [Vasovagal vs Orthostatic vs Cardiac]. Workup tailored to identify underlying arrhythmogenic or structural cardiac causes vs neurogenic triggers.",
-    ddx: ["Arrhythmia (HB/SVT)", "Aortic Stenosis", "Orthostatic Hypotension", "Seizure (Post-ictal)", "Pulmonary Embolism"],
-    medications: [
-      { name: "Midodrine", dose: "5mg", frequency: "TID" },
-      { name: "Normal Saline Bolus", dose: "1L", frequency: "PRN" },
-      { name: "Fludrocortisone", dose: "0.1mg", frequency: "QD" }
-    ] 
+      { name: "Aspirin", dose: "81mg", frequency: "QD" },
+      { name: "Nitroglycerin", dose: "0.4mg SL", frequency: "PRN" }
+    ],
+    orders: "Serial cardiac enzymes x 2; Serial EKGs; MPI if enzymes negative; CXR; CBC; BMP; Morphine for severe pain."
   },
   { 
     system: "Pulmonary",
-    title: "COPD Exacerbation", 
-    assessment: "Acute-on-chronic respiratory failure secondary to COPD exacerbation, Anthonisen Type I (increased dyspnea/sputum volume/purulence). Trigger likely [viral vs bacterial vs environmental]. Monitoring for need for BIPAP.",
-    ddx: ["Pneumonia", "Pulmonary Embolism", "Acute Heart Failure", "Pneumothorax", "Myocardial Infarction"],
+    title: "Acute Respiratory Failure", 
+    assessment: "Acute [Hypoxemic/Hypercarbic] respiratory failure, [improving/worsening] on [X] supplemental oxygen. Trigger likely [PNA/PE/CHF/COPD].",
+    ddx: ["Pneumonia", "Pulmonary Embolism", "Pneumothorax", "ARDS", "Aspiration"],
     medications: [
       { name: "Albuterol/Ipratropium", dose: "2.5/0.5mg", frequency: "Q4H" },
-      { name: "Prednisone", dose: "40mg", frequency: "QD" },
-      { name: "Azithromycin", dose: "500mg", frequency: "QD" },
-      { name: "Nicotine Patch", dose: "21mg", frequency: "QD" }
-    ] 
-  },
-  { 
-    system: "Pulmonary",
-    title: "Pneumonia (CAP)", 
-    assessment: "Community-acquired pneumonia, CURB-65 score: [X]. Clinical picture consistent with [lobar/interstitial] infiltration. Plan for targeted antimicrobial therapy after cultures.",
-    ddx: ["Viral Pneumonitis", "Heart Failure (Pulmonary Edema)", "Aspiration Pneumonitis", "Lung Malignancy", "Pulmonary Infarction"],
-    medications: [
-      { name: "Ceftriaxone", dose: "1g", frequency: "QD" },
-      { name: "Azithromycin", dose: "500mg", frequency: "QD" },
-      { name: "Guaifenesin", dose: "600mg", frequency: "BID" }
-    ] 
-  },
-  { 
-    system: "Pulmonary",
-    title: "Pulmonary Embolism", 
-    assessment: "Confirmed acute PE on CTPE. PESI score [X] indicating [Low/High] risk. Patient is hemodynamically stable. Anticoagulation initiated to prevent further thrombotic events.",
-    ddx: ["ACS (NSTEMI)", "Pneumothorax", "Pleuritic Chest Pain", "Pneumonia", "Rib Fracture"],
-    medications: [
-      { name: "Heparin GTT", dose: "Protocol", frequency: "QD" },
-      { name: "Enoxaparin", dose: "1mg/kg", frequency: "BID" },
-      { name: "Rivaroxaban", dose: "15mg", frequency: "BID" },
-      { name: "Apixaban", dose: "10mg (load)", frequency: "BID" }
-    ] 
-  },
-  { 
-    system: "Pulmonary",
-    title: "COPD (Chronic/STABLE)", 
-    assessment: "Chronic obstructive pulmonary disease, baseline status. No evidence of acute exacerbation (no increased dyspnea or purulent sputum). Continuing baseline inhaler therapy and monitoring respiratory effort.",
-    ddx: ["Acute COPD Exacerbation", "Pneumonia", "CHF", "Baseline Deconditioning"],
-    medications: [
-      { name: "Tiotropium", dose: "18mcg", frequency: "QD" },
-      { name: "Salmeterol/Fluticasone", dose: "250/50mcg", frequency: "BID" },
-      { name: "Albuterol HFA", dose: "2 puffs Q4H", frequency: "PRN" }
-    ] 
+      { name: "Prednisone", dose: "40mg", frequency: "QD" }
+    ],
+    orders: "CPO and telemetry; RT assessment PRN; Wean O2 as tolerated; Daily CBC, BMP; Consider ABG/VBG; Incentive spirometry."
   },
   { 
     system: "Renal/Lytes",
-    title: "Acute Kidney Injury", 
-    assessment: "Acute kidney injury (Stage [X]) based on Cr elevation from baseline [X] to [Y]. Etiology likely [Prerenal (dehydration/diuretics) vs ATN vs Postrenal (obstruction)]. Monitoring urinary output and electrolytes.",
-    ddx: ["Hypovolemia/Dehydration", "Acute Tubular Necrosis (ATN)", "Nephrotoxin exposure (NSAIDs/Contrast)", "Obstructive Uropathy", "Glomerulonephritis"],
+    title: "AKI (Prerenal)", 
+    assessment: "Acute kidney injury, likely prerenal secondary to relative hypovolemia and systemic illness. Creatinine baseline: [X]. FeNa: [Y].",
+    ddx: ["Hypovolemia/Dehydration", "Acute Tubular Necrosis (ATN)", "Postrenal Obstruction", "Hepatorenal Syndrome"],
     medications: [
-      { name: "Normal Saline", dose: "75cc/hr", frequency: "QD" },
-      { name: "Furosemide", dose: "HOLD", frequency: "PRN" },
-      { name: "Lisinopril", dose: "HOLD", frequency: "PRN" }
-    ] 
+      { name: "Normal Saline", dose: "Bolus vs 75cc/hr", frequency: "QD" }
+    ],
+    orders: "HOLD all nephrotoxins (NSAIDs, ACE-I, etc); BMP; UA with microscopy; Renal/bladder US; UNa/UCr/UOsm; Strict I/Os."
   },
   { 
     system: "Renal/Lytes",
-    title: "Hyponatremia", 
-    assessment: "Total body sodium vs water excess mismatch. Likely [SIADH vs Hypovolemic vs Dilutional]. Goal is safe correction of Na by < 6-8 mEq/24h to avoid Osmotic Demyelination Syndrome (ODS).",
-    ddx: ["SIADH", "Hypovolemic Hyponatremia (Dehydration)", "Heart Failure (Dilutional)", "Adrenal Insufficiency", "Psychogenic Polydipsia"],
+    title: "Chronic Kidney Disease", 
+    assessment: "CKD Stage [X] (GFR [Y]), likely secondary to [HTN/DM]. Renal function [stable/worsening] over past year.",
+    ddx: ["Hypertensive Nephrosclerosis", "Diabetic Nephropathy", "Polycystic Kidney Disease"],
     medications: [
-      { name: "Sodium Chloride (Tabs)", dose: "1g", frequency: "TID" },
-      { name: "3% Saline", dose: "50cc/hr (if symptomatic)", frequency: "PRN" },
-      { name: "Furosemide", dose: "20mg", frequency: "QD" }
-    ] 
+      { name: "Atorvastatin", dose: "20-40mg", frequency: "QD" }
+    ],
+    orders: "Avoid NSAIDs and nephrotoxic agents; Low-sodium/Low-potassium diet; Daily BMP to monitor for AKI; Establish baseline Cr."
   },
   { 
-    system: "Renal/Lytes",
-    title: "Hyperkalemia", 
-    assessment: "Serum Potassium > 5.5 mEq/L with [present/absent] ECG changes. Plan for immediate membrane stabilization with calcium, shifting with insulin/D50, and eventual removal/excretion.",
-    ddx: ["AKI / Stage V CKD", "Medication-induced (ACEi/ARB/Spironolactone)", "Rhabdomyolysis", "Lab Hemolysis (Pseudohyperkalemia)", "Metabolic Acidosis"],
+    system: "Hematology",
+    title: "Anticoagulation Flow (Reversal Protocols)", 
+    assessment: "Patient currently on [Anticoagulant]. High risk for bleeding vs currently actively bleeding. Management tailored to specific agent.",
+    ddx: ["Iatrogenic Coagulopathy", "Active Hemorrhage", "GI Bleed", "Intracranial Bleed"],
     medications: [
-      { name: "Calcium Gluconate", dose: "1g", frequency: "PRN" },
-      { name: "Insulin Regular", dose: "10 units (+ D50W)", frequency: "PRN" },
-      { name: "Albuterol (Nebulized)", dose: "10-20mg", frequency: "PRN" },
-      { name: "Sodium Zirconium (Lokelma)", dose: "10g", frequency: "TID" }
-    ] 
+      { name: "Protamine Sulfate (for Hep/Lovenox)", dose: "Per Pharmacy", frequency: "Once" },
+      { name: "Idarucizumab (for Pradaxa)", dose: "2.5g x 2", frequency: "Once" },
+      { name: "4-Factor PCC (Kcentra)", dose: "25-50 units/kg", frequency: "Once" },
+      { name: "Vitamin K", dose: "1-5mg IV/PO", frequency: "Once" }
+    ],
+    orders: "Recheck INR in 30-60 mins; FFP 1u if actively bleeding + Coumadin; STOP Argatroban/Bival if supratherapeutic."
   },
   { 
-    system: "Renal/Lytes",
-    title: "Hypercalcemia", 
-    assessment: "Corrected Calcium > 10.5 mg/dL. Likely [Malignancy vs Hyperparathyroidism]. Goal is aggressive volume expansion and inhibition of bone resorption.",
-    ddx: ["Malignancy (PTHrP / Bone mets)", "Primary Hyperparathyroidism", "Vitamin D Toxicity", "Sarcoidosis / Granulomatous Disease", "Thiazide usage"],
+    system: "Neurology",
+    title: "Encephalopathy (Acute)", 
+    assessment: "Acute change in mental status. DDx includes Metabolic (Lytes/TSH/NH3), Infectious (UTI/PNA/Meningitis), Neurologic (Sz/CVA), and Toxins.",
+    ddx: ["UTI / Urosepsis", "Hepatic Encephalopathy", "Hyponatremia / Hypoxia", "Alcohol Withdrawal", "CVA/TIA/ICH"],
     medications: [
-      { name: "Normal Saline", dose: "250cc/hr", frequency: "QD" },
-      { name: "Zoledronic Acid", dose: "4mg", frequency: "Once" },
-      { name: "Calcitonin", dose: "4 units/kg", frequency: "Q12H" }
-    ] 
+      { name: "Thiamine", dose: "100mg", frequency: "QD" },
+      { name: "Lactulose", dose: "30g", frequency: "TID" }
+    ],
+    orders: "CMP, TSH, Ammonia, ABG; Vit B12/Folate; UA w/ micro; CXR; Head CT; Consider EEG/MRI/LP."
   },
   { 
-    system: "Infectious Disease",
-    title: "Sepsis / Septic Shock", 
-    assessment: "Sepsis secondary to suspected [pulmonary/urinary/biliary] source. qSOFA/SIRS positive. Hemodynamics: [Stable/Fluctuating]. Initiating Surviving Sepsis Bundle including aggressive fluid resuscitation and broad-spectrum antibiotics.",
-    ddx: ["Pneumonia", "Pyelonephritis", "Cholecystitis/Cholangitis", "Meningitis", "Bacteremia (CLABSI/CAUTI)"],
+    system: "Neurology",
+    title: "Seizure (Acute/First Occurrence)", 
+    assessment: "[Generalized/Focal] seizure lasting [X] mins. Evidence of post-ictal state. Plan for provoking factor workup and monitoring for recurrence.",
+    ddx: ["New-onset Epilepsy", "Provoked Seizure (Lytes/Tox)", "Etoh Withdrawal", "Intracranial Lesion", "Hypoglycemia"],
     medications: [
-      { name: "Vancomycin", dose: "15mg/kg", frequency: "Q12H" },
-      { name: "Piperacillin/Tazobactam", dose: "3.375g", frequency: "Q8H" },
-      { name: "Norepinephrine", dose: "Titrate to MAP > 65", frequency: "PRN" },
-      { name: "Normal Saline (30cc/kg)", dose: "Bolus", frequency: "PRN" }
-    ] 
-  },
-  { 
-    system: "Infectious Disease",
-    title: "Cellulitis / Soft Tissue Infection", 
-    assessment: "Cellulitis involving the [extremity/area]. Increasing erythema, warmth, and tenderness. Monitoring for systemic signs (SIRS) and potential for deeper space infection/abscess.",
-    ddx: ["DVT", "Venous Stasis Dermatitis", "Lymphedema", "Necrotizing Fasciitis", "Contact Dermatitis"],
-    medications: [
-      { name: "Cefazolin", dose: "1g", frequency: "Q8H" },
-      { name: "Vancomycin", dose: "15mg/kg", frequency: "Q12H" },
-      { name: "Bactrim DS", dose: "1 tab", frequency: "BID" },
-      { name: "Acetaminophen", dose: "650mg", frequency: "PRN" }
-    ] 
-  },
-  { 
-    system: "Infectious Disease",
-    title: "Urosepsis / UTI (Complicated)", 
-    assessment: "Systemic infection with urinary source (Leukocyte Esterase/Nitrite positive). Patient meets [SIRS/qSOFA] criteria. Initiating targeted antimicrobial therapy based on culture data.",
-    ddx: ["Simple Cystitis", "Pyelonephritis", "Prostatitis", "Nephrolithiasis", "Pelvic Inflammatory Disease"],
-    medications: [
-      { name: "Ceftriaxone", dose: "1g", frequency: "QD" },
-      { name: "Ciprofloxacin", dose: "400mg", frequency: "Q12H" },
-      { name: "Phenazopyridine", dose: "200mg", frequency: "PRN" }
-    ] 
-  },
-  { 
-    system: "Infectious Disease",
-    title: "Dog Bite / Mammalian Bite", 
-    assessment: "Bite wound to the [LEFT/RIGHT BODY PART] sustained on [Date]. Evidence of [erythema/purulence/cellulitis]. Plan for antibiotic prophylaxis vs treatment and assessment of rabies/tetanus status.",
-    ddx: ["Pasteurella multocida infection", "Capnocytophaga canimorsus (if immunocompromised)", "Staph/Strep Cellulitis", "Abscess Formation"],
-    medications: [
-      { name: "Amoxicillin-Clavulanate (Augmentin)", dose: "875-125mg", frequency: "BID" },
-      { name: "Tetanus Toxoid (Tdap)", dose: "0.5mL", frequency: "Once" },
-      { name: "Rabies Post-Exposure Prophylaxis", dose: "Protocol", frequency: "PRN" }
-    ] 
-  },
-  { 
-    system: "Gastroenterology",
-    title: "GI Bleed (Upper)", 
-    assessment: "Acute upper GI bleed suspect based on melena/hematemesis and drop in Hgb. Hemodynamically [stable/unstable]. Plan for NPO, resuscitation, and GI consultation for EGD.",
-    ddx: ["Peptic Ulcer Disease", "Esophageal Varices", "Mallory-Weiss Tear", "Gastritis/Duodenitis", "Dieulafoy Lesion"],
-    medications: [
-      { name: "Pantoprazole", dose: "40mg", frequency: "BID" },
-      { name: "Octreotide GTT", dose: "50mcg/hr", frequency: "PRN" },
-      { name: "Ceftriaxone", dose: "1g (if Cirrhosis)", frequency: "QD" },
-      { name: "Erythromycin", dose: "250mg (Pre-EGD)", frequency: "PRN" }
-    ] 
-  },
-  { 
-    system: "Gastroenterology",
-    title: "Liver Cirrhosis / Hepatic Encephalopathy", 
-    assessment: "Decompensated cirrhosis (Child-Pugh [X]) with evidence of [ascites/encephalopathy/varices]. Monitoring for Spontaneous Bacterial Peritonitis (SBP) and optimizing ammonia clearance.",
-    ddx: ["Alcoholic Cirrhosis", "Nonalcoholic Steatohepatitis (NASH)", "Chronic Hepatitis C", "Autoimmune Hepatitis", "Hemochromatosis"],
-    medications: [
-      { name: "Lactulose", dose: "30g (Goal 2-3 stools)", frequency: "TID" },
-      { name: "Rifaximin", dose: "550mg", frequency: "BID" },
-      { name: "Spironolactone", dose: "100mg (10:4 ratio)", frequency: "QD" },
-      { name: "Furosemide", dose: "40mg", frequency: "QD" }
-    ] 
+      { name: "Levetiracetam (Keppra)", dose: "500-1000mg", frequency: "BID" },
+      { name: "Lorazepam", dose: "2-4mg", frequency: "PRN" }
+    ],
+    orders: "Seizure precautions; Serum lactate; EEG urgently if slow return to baseline; Head CT; TSH; UDS; Etoh level; BMP."
   },
   { 
     system: "Gastroenterology",
     title: "Acute Pancreatitis", 
-    assessment: "Acute epigastric pain with Lipase > 3x normal. Likely secondary to [Gallstones vs Alcohol vs Hypertriglyceridemia]. Goal is aggressive fluid resuscitation and pain management.",
+    assessment: "Acute epigastric pain with Lipase > 3x normal. SIRS Criteria: [Met/Not Met]. Likely [Gallstones/Alcohol/HyperTG]. Plan for aggressive resuscitation.",
     ddx: ["Choledocholithiasis", "Peptic Ulcer Perforation", "Mesenteric Ischemia", "Small Bowel Obstruction"],
     medications: [
       { name: "Lactated Ringers", dose: "250cc/hr", frequency: "QD" },
-      { name: "Hydromorphone", dose: "0.5mg", frequency: "PRN" },
-      { name: "Ondansetron", dose: "4mg", frequency: "PRN" }
-    ] 
-  },
-  { 
-    system: "Gastroenterology",
-    title: "Small Bowel Obstruction (SBO)", 
-    assessment: "Obstipation, vomiting, and abdominal distension with CT showing transition point. Likely [Adhesions vs Hernia vs Malignancy]. Trial of conservative management with NPO + NGT.",
-    ddx: ["Post-operative Ileus", "Large Bowel Obstruction", "Ogilvie's Syndrome", "Severe Constipation / Impaction"],
-    medications: [
-      { name: "Normal Saline", dose: "100cc/hr", frequency: "QD" },
-      { name: "Promethazine", dose: "12.5mg", frequency: "PRN" },
-      { name: "Glycerin Suppository", dose: "1", frequency: "PRN" }
-    ] 
-  },
-  { 
-    system: "Neurology",
-    title: "Acute Ischemic Stroke", 
-    assessment: "Focal neurologic deficit with NIHSS score [X]. Plan for permissive hypertension, secondary prevention, and frequent neuro-checks. Permissive BP goal < 220/120 (unless TPA given).",
-    ddx: ["Intracranial Hemorrhage", "Todd's Paralysis (Post-ictal)", "Hypoglycemia", "Complex Migraine", "Conversion Disorder"],
-    medications: [
-      { name: "Aspirin", dose: "325mg", frequency: "QD" },
-      { name: "Atorvastatin", dose: "80mg", frequency: "QD" },
-      { name: "Clopidogrel", dose: "75mg", frequency: "QD" },
-      { name: "Heparin", dose: "5000 units (VTE Pro-op)", frequency: "TID" }
-    ] 
-  },
-  { 
-    system: "Neurology",
-    title: "Encephalopathy / Delirium", 
-    assessment: "Acute change in mental status. Disturbance in attention and awareness. Etiology likely metabolic/infectious. Minimizing sedatives and optimizing sleep-wake cycles.",
-    ddx: ["UTI/Urosepsis", "Hepatic Encephalopathy", "Hyponatremia", "Polypharmacy/Sedative use", "Stroke (Non-convulsive status)"],
-    medications: [
-      { name: "Lactulose", dose: "30g", frequency: "TID" },
-      { name: "Melatonin", dose: "3mg", frequency: "QHS" },
-      { name: "Quetiapine", dose: "12.5mg (low dose PRN)", frequency: "PRN" },
-      { name: "Thiamine", dose: "100mg", frequency: "QD" }
-    ] 
-  },
-  { 
-    system: "Neurology",
-    title: "Seizure / Status Epilepticus", 
-    assessment: "Episodes of loss of consciousness with [tonic-clonic] movements. Plan for evaluation of provoked causes (electrolytes/tox) vs new-onset epilepsy. EEG/MRI pending.",
-    ddx: ["Metabolic Derangement (Hypoglycemia/Hyponatremia)", "Drug or Alcohol Withdrawal", "Intracranial Lesion / Malignancy", "Psychogenic Non-Epileptic Seizures (PNES)"],
-    medications: [
-      { name: "Levetiracetam (Keppra)", dose: "500mg", frequency: "BID" },
-      { name: "Lorazepam", dose: "2-4mg (for active sz)", frequency: "PRN" },
-      { name: "Thiamine", dose: "100mg", frequency: "QD" }
-    ] 
-  },
-  { 
-    system: "Endocrine",
-    title: "Diabetic Ketoacidosis (DKA)", 
-    assessment: "Aged/New DM patient with metabolic acidosis, hyperglycemia, and positive ketones. Anion gap = [X]. Initiating DKA protocol with insulin drip and aggressive fluid/potassium management.",
-    ddx: ["HHS", "Starvation Ketosis", "Alcoholic Ketoacidosis", "Salicylate Toxicity", "Uremia"],
-    medications: [
-      { name: "Insulin Regular Infusion", dose: "0.1u/kg/hr", frequency: "QD" },
-      { name: "Normal Saline (1L/hr initial)", dose: "500cc/hr", frequency: "QD" },
-      { name: "Potassium Chloride", dose: "20mEq (added to fluids)", frequency: "PRN" },
-      { name: "D5NS (when Glucose < 250)", dose: "150cc/hr", frequency: "PRN" }
-    ] 
+      { name: "Hydromorphone", dose: "0.5mg", frequency: "PRN" }
+    ],
+    orders: "NPO; Aggressive IVF; Strict I/O; Abd U/S; Lipid panel; PTH; Hold ABX unless >30% necrosis on CT."
   },
   { 
     system: "Hematology",
-    title: "Anemia (Acute / Symptomatic)", 
-    assessment: "[Normocytic/Microcytic] anemia with symptomatic [tachycardia/dyspnea]. Hgb drop from baseline [X] to [Y]. Plan for Source localization and support with transfusion if < 7g/dL.",
-    ddx: ["Upper/Lower GI Bleed", "Iron Deficiency", "Anemia of Chronic Disease", "Source-less Hemolysis", "Vitamin B12 Deficiency"],
+    title: "Heparin/Lovenox Reversal", 
+    assessment: "Supratherapeutic anticoagulation or active bleeding on Heparin/Enoxaparin. Decision to reverse based on clinical urgency.",
+    ddx: ["Iatrogenic bleeding", "Overdose", "Renal failure (for Lovenox)"],
     medications: [
-      { name: "Ferrous Sulfate", dose: "325mg", frequency: "QD" },
-      { name: "Vitamin B12", dose: "1000mcg", frequency: "QD" },
-      { name: "Folic Acid", dose: "1mg", frequency: "QD" }
-    ] 
+      { name: "Protamine Sulfate", dose: "1mg per 100u Heparin", frequency: "Once" }
+    ],
+    orders: "Protamine sulfate IV; Recheck aPTT/Anti-Xa in 1hr; Type and Screen; Hemoglobin trend."
   },
   { 
     system: "Hematology",
-    title: "Deep Vein Thrombosis (DVT)", 
-    assessment: "Unilateral lower extremity [Pain/Swelling] confirmed by Duplex Ultrasound. Wells Score: [X]. Initiation of therapeutic anticoagulation to prevent PE progression.",
-    ddx: ["Cellulitis", "Baker's Cyst Rupture", "Chronic Venous Insufficiency", "Muscle Strain/Tear"],
+    title: "Pradaxa (Dabigatran) Reversal", 
+    assessment: "Active life-threatening bleeding on Dabigatran. Indicated usage of specific reversal agent.",
+    ddx: ["Traumatic Hemorrhage", "GI Bleed", "ICH"],
     medications: [
-      { name: "Enoxaparin", dose: "1mg/kg", frequency: "BID" },
-      { name: "Apixaban", dose: "10mg load", frequency: "BID" },
-      { name: "Rivaroxaban", dose: "15mg load", frequency: "BID" }
-    ] 
+      { name: "Idarucizumab (Praxbind)", dose: "5g (2.5g x 2)", frequency: "Once" }
+    ],
+    orders: "Idarucizumab IV 2.5g x 2 doses, 15 mins apart; Coagulation panel; STAT Hgb."
+  },
+  { 
+    system: "Hematology",
+    title: "DOAC (Rivarox/Apix/Edox) Reversal", 
+    assessment: "Active bleeding on Factor Xa inhibitor. PCC utilized for reversal as Andexxa unavailable/deferred.",
+    ddx: ["Factor Xa inhibition", "GI Bleed", "Surgical urgency"],
+    medications: [
+      { name: "4-Factor PCC (Kcentra)", dose: "50 units/kg", frequency: "Once" }
+    ],
+    orders: "Kcentra 50 units/kg (Max 5000 units); Vitamin K 10mg IV; STAT CBC/INR."
+  },
+  { 
+    system: "Hematology",
+    title: "Warfarin (Coumadin) Reversal", 
+    assessment: "Warfarin-associated coagulopathy with active bleeding. Goal is immediate INR normalization.",
+    ddx: ["Warfarin toxicity", "Vitamin K deficiency", "Liver failure"],
+    medications: [
+      { name: "Vitamin K", dose: "10mg", frequency: "Once" },
+      { name: "Fresh Frozen Plasma (FFP)", dose: "1-2 units", frequency: "Once" }
+    ],
+    orders: "If severe bleed/INR >6: Kcentra 50u/kg; If INR 4-6: Kcentra 35u/kg; If INR 2-4: Kcentra 25u/kg; Recheck INR in 30 mins if FFP given; Vitamin K 1-2.5mg IV (if 24h correction) or 2.5-5mg PO (if 48h correction)."
+  },
+  { 
+    system: "Cardiovascular",
+    title: "Chronic AFib (Stable)", 
+    assessment: "Chronic Atrial Fibrillation, stable. Rate well-controlled. Hemodynamically stable. Cardioversion not indicated acutely.",
+    ddx: ["Baseline state"],
+    medications: [
+      { name: "Diltiazem", dose: "180mg", frequency: "QD" }
+    ],
+    orders: "CHADS2-VASc score calculated; Appropriately anticoagulated; Rate control continuation."
+  },
+  { 
+    system: "Cardiovascular",
+    title: "NSVT / QT Prolongation", 
+    assessment: "Episodes of NSVT noted on telemetry. Concurrent QTc prolongation noted on EKG. Monitoring for Torsades risk.",
+    ddx: ["Electrolyte derangement (Mg/K)", "Drug-induced QT (Zofran/Azithro/Fluoro)", "Ischemia", "Congenital LQTS"],
+    medications: [
+      { name: "Magnesium Sulfate", dose: "2g", frequency: "Once" }
+    ],
+    orders: "Repeat 12-lead EKG; STAT BMP/Mg/Phos; Troponin; Maintain K > 4.0 and Mg > 2.0; Review MAR for QT-prolonging drugs; EP consult."
+  },
+  { 
+    system: "Cardiovascular",
+    title: "Syncope Workup", 
+    assessment: "Loss of consciousness, likely [orthostatic/vasovagal/cardiac]. No structural heart disease or exerting triggers noted.",
+    ddx: ["Orthostatic Hypotension", "Vasovagal Reflex", "Arrhythmia (HB/SVT)", "Anemia", "Critical Stenosis"],
+    medications: [],
+    orders: "Orthostatics; EKG; Telemetry; Echocardiogram; CBC; BMP; Evaluate for high-risk criteria (SCD family hx, low EF)."
+  },
+  { 
+    system: "Cardiovascular",
+    title: "Acute Pericarditis", 
+    assessment: "Sharp pleuritic chest pain improved by leaning forward. EKG shows widespread ST elevation without troponin leak.",
+    ddx: ["Viral/Idiopathic Pericarditis", "Dressler Syndrome", "Uremic Pericarditis", "STEMI (Mimic)"],
+    medications: [
+      { name: "Ibuprofen", dose: "600-800mg", frequency: "TID" },
+      { name: "Colchicine", dose: "0.5mg", frequency: "BID" }
+    ],
+    orders: "Echo; CRP/ESR; Troponin; Blood cultures if SIRS present; Consider Prednisone only if refractory."
+  },
+  { 
+    system: "Pulmonary",
+    title: "Acute Hypoxemic Resp Failure", 
+    assessment: "Persistent low O2 saturation (SaO2 < 90% RA) or PaO2 < 60. Etiology suspicious for [Aspiration/PE/PTX/PNA].",
+    ddx: ["Aspiration", "PE", "PTX", "PNA", "ARDS", "Shunting", "TACO/TRALI"],
+    medications: [],
+    orders: "CPO/Telemetry; RT assess PRN; CXR; Check for ARDS criteria; CBC/CMP/ABG."
+  },
+  { 
+    system: "Renal/Lytes",
+    title: "AKI on CKD III", 
+    assessment: "Acute kidney injury on established CKD Stage III. Baseline Cr [X]. Likely prerenal due to [Y].",
+    ddx: ["Prerenal (Dehydration)", "ATN (Ischemic/Toxic)", "Drug-induced (NSAID/ACEI)"],
+    medications: [],
+    orders: "Hold NSAIDs/ACE-I; IVF resuscitation; Strict I/O; BMP; Plan for establishment of new baseline."
+  },
+  { 
+    system: "Neurology",
+    title: "Weakness Workup", 
+    assessment: "New onset weakness. Evaluation for Neurogenic (CVA/TIA/MS/Sz), Muscular, Electroltye, or Infectious etiology.",
+    ddx: ["CVA / TIA", "Seizure (Todd's Paralysis)", "Hemiplegic Migraine", "Electrolyte imbalance (K/Phos/Mg)", "Multiple Sclerosis"],
+    medications: [],
+    orders: "Head CT / CTA; MRI Brain; EEG; ESR/CRP/CK; BMP/TSH/A1c; CXR/UA/Cultures."
+  },
+  { 
+    system: "Infectious Disease",
+    title: "Acute Pyelonephritis", 
+    assessment: "Urine source infection with flank pain. [Sepsis criteria met/not met]. Initiating empiric coverage pending cultures.",
+    ddx: ["Nephrolithiasis", "Renal Abscess", "Prostatitis"],
+    medications: [
+      { name: "Ceftriaxone", dose: "1g", frequency: "QD" }
+    ],
+    orders: "UA w/ culture; Blood cultures; Renal U/S to r/o obstruction; Narrow once sensitivities back."
   },
   { 
     system: "Rheumatology",
-    title: "Gout / Pseudogout (Acute Flare)", 
-    assessment: "Monoarthritis of [Joint] with intense erythema and swelling. Clinical presentation consistent with crystal-induced arthropathy. Plan for anti-inflammatory therapy.",
-    ddx: ["Septic Arthritis", "Cellulitis", "Traumatic Hemarthrosis", "Rheumatoid Arthritis flair"],
+    title: "Low Back Pain (Acute)", 
+    assessment: "Acute lower back pain, likely lumbar strain. No red flags (cauda equina, fever, weight loss, trauma).",
+    ddx: ["Lumbar Strain", "Herniated Disc", "Vertebral Fracture", "Ankylosing Spondylitis"],
     medications: [
-      { name: "Naproxen", dose: "500mg", frequency: "BID" },
-      { name: "Colchicine", dose: "0.6mg", frequency: "QD" },
-      { name: "Prednisone", dose: "40mg", frequency: "QD" }
-    ] 
+      { name: "Ibuprofen", dose: "600mg", frequency: "TID" },
+      { name: "Cyclobenzaprine", dose: "5mg", frequency: "TID" }
+    ],
+    orders: "Conservative therapy (Rest/Ice/Heat); Physical therapy handout; Short course muscle relaxants; RTC precautions."
   },
   { 
-    system: "Behavioral/Tox",
-    title: "Alcohol Withdrawal (CIWA)", 
-    assessment: "Patient at high risk for alcohol withdrawal syndrome. Monitoring clinical status via CIWA-Ar protocol. Plan for symptom-triggered benzodiazepine administration and electrolyte/vitamin replacement.",
-    ddx: ["Sepsis", "Wernicke's Encephalopathy", "Metabolic Derangement", "Benzodiazepine Withdrawal", "Stroke/TIA"],
+    system: "Neurology",
+    title: "Visual Changes (IIH Workup)", 
+    assessment: "Headache worse with bending, pulsatile tinnitus, and transient vision loss. Evaluation for Pseudotumor Cerebri.",
+    ddx: ["Idiopathic Intracranial HTN", "Venous Sinus Thrombosis", "Optic Neuritis"],
     medications: [
-      { name: "Lorazepam", dose: "2mg", frequency: "PRN" },
-      { name: "Diazepam", dose: "10mg (if severe)", frequency: "PRN" },
-      { name: "Thiamine", dose: "100mg", frequency: "QD" },
-      { name: "Folic Acid", dose: "1mg", frequency: "QD" },
-      { name: "Chlordiazepoxide", dose: "50mg", frequency: "Q6H" }
-    ] 
+      { name: "Acetazolamide", dose: "500-1000mg", frequency: "BID" }
+    ],
+    orders: "Review Vitamin A / Tetracycline / Growth Hormone / OCP use; Fundoscopic exam; MRI Brain; MRV; Lumbar Puncture."
   },
 ];
 
@@ -902,7 +841,7 @@ export function NotesTab({ patient }: { patient: Patient }) {
       ddx: template?.ddx || [],
       medicationIds: newMedIds,
       tests: [],
-      orders: "",
+      orders: template?.orders || "",
     };
 
     updatePatient(patient.id, { 
@@ -946,6 +885,14 @@ export function NotesTab({ patient }: { patient: Patient }) {
     let note = "";
     note += `Impression/Plan for ${patient.name}:\n`;
     note += `This is a ${patient.age}yo ${patient.gender} with PMHx ${patient.diagnosis} presenting with ${patient.oneLiner}.\n\n`;
+
+    if (patient.hospitalCourse) {
+      note += `# HOSPITAL COURSE\n${patient.hospitalCourse}\n\n`;
+    }
+
+    if (patient.overnightEvents) {
+      note += `# OVERNIGHT EVENTS\n${patient.overnightEvents}\n\n`;
+    }
 
     problems.forEach(p => {
       note += `# ${p.title} (${p.status.toUpperCase()})\n`;
@@ -1109,6 +1056,33 @@ export function NotesTab({ patient }: { patient: Patient }) {
                 )}
               </div>
            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+               <div className="space-y-4">
+                  <div className="flex items-center gap-2">
+                    <Activity className="h-4 w-4 text-rose-500" />
+                    <h3 className="text-[10px] font-black text-stone-500 uppercase tracking-widest">Overnight Events</h3>
+                  </div>
+                  <textarea
+                    className="w-full bg-stone-900 border border-stone-800 rounded-[24px] p-5 text-xs text-stone-300 font-medium focus:ring-2 focus:ring-blue-600 focus:outline-none transition-all placeholder:text-stone-800 min-h-[120px] shadow-inner"
+                    placeholder="Describe relevant overnight clinical events or changes..."
+                    value={patient.overnightEvents}
+                    onChange={(e) => updatePatient(patient.id, { overnightEvents: e.target.value })}
+                  />
+               </div>
+               <div className="space-y-4">
+                  <div className="flex items-center gap-2">
+                    <ClipboardList className="h-4 w-4 text-blue-500" />
+                    <h3 className="text-[10px] font-black text-stone-500 uppercase tracking-widest">Hospital Course Summary</h3>
+                  </div>
+                  <textarea
+                    className="w-full bg-stone-900 border border-stone-800 rounded-[24px] p-5 text-xs text-stone-300 font-medium focus:ring-2 focus:ring-blue-600 focus:outline-none transition-all placeholder:text-stone-800 min-h-[120px] shadow-inner"
+                    placeholder="Synthesize the patient's trajectory and key turning points..."
+                    value={patient.hospitalCourse}
+                    onChange={(e) => updatePatient(patient.id, { hospitalCourse: e.target.value })}
+                  />
+               </div>
+            </div>
 
            <SafetyFlowMonitor alerts={alerts} />
 

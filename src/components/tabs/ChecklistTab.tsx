@@ -13,6 +13,13 @@ export function ChecklistTab({ patient, updatePatient }: { patient: Patient; upd
     updatePatient(patient.id, { checklist: updated });
   };
 
+  const resetDaily = () => {
+    const updated = patient.checklist.map((item) =>
+      item.isStandard ? { ...item, completed: false } : item
+    );
+    updatePatient(patient.id, { checklist: updated });
+  };
+
   const removeTask = (id: string) => {
     updatePatient(patient.id, { checklist: patient.checklist.filter(i => i.id !== id) });
   };
@@ -35,6 +42,12 @@ export function ChecklistTab({ patient, updatePatient }: { patient: Patient; upd
     <div className="bg-stone-900 border border-stone-800 rounded-xl p-6 shadow-xl">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-sm font-bold text-stone-500 uppercase tracking-widest">Rounding Checklist & Tasks</h2>
+        <button 
+          onClick={resetDaily}
+          className="text-[10px] font-black text-blue-500 uppercase tracking-widest hover:text-blue-400 border border-blue-500/30 px-3 py-1 rounded-full transition-all"
+        >
+          Reset Daily Items
+        </button>
       </div>
 
       <form onSubmit={addTask} className="flex gap-2 mb-6">

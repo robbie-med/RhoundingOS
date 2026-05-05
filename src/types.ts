@@ -62,6 +62,10 @@ export interface Patient {
   medications: Medication[];
   problems: Problem[];
   misc?: MiscInfo;
+  vitalsNote?: string;
+  labsNote?: string;
+  overnightEvents?: string;
+  hospitalCourse?: string;
 }
 
 export const DEFAULT_CHECKLIST: Omit<ChecklistItem, "id">[] = [
