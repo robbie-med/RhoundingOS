@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import {defineConfig, loadEnv} from 'vite';
 
+
 export default defineConfig(({mode}) => {
   const env = loadEnv(mode, '.', '');
   return {
@@ -21,4 +22,14 @@ export default defineConfig(({mode}) => {
       hmr: process.env.DISABLE_HMR !== 'true',
     },
   };
+});
+
+// vite.config.ts
+import { defineConfig } from 'vite';
+import react from '@vitejs/react-swc';
+import tailwindcss from '@theme/tailwindcss';
+
+export default defineConfig({
+  plugins: [react(), tailwindcss()],
+  base: '/RhoundingOS/', // REPLACE with your actual repository name
 });
